@@ -1,12 +1,13 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.myapplication.entidades.Utilidades;
 
 public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
-
+    private SQLiteDatabase bd;
     // Nombre de la db
     private static final String DB_NAME = "database.sqlite";
     // Version db
@@ -16,15 +17,33 @@ public class AdminSQLiteOpenHelper extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    @Override // Creo las tablas
+    @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Utilidades.CREAR_TABLA_USUARIO);
-        db.execSQL(Utilidades.CREAR_TABLA_TIENDA);
-        db.execSQL(Utilidades.CREAR_TABLA_PRODUCTO);
+        try {
+            db.execSQL(Utilidades.CREAR_TABLA_USUARIO);
+            db.execSQL(Utilidades.CREAR_TABLA_VENTA);
+            db.execSQL(Utilidades.CREAR_TABLA_PRODUCTO);
+            db.execSQL(Utilidades.CREAR_TABLA_CATEGORIA);
+            db.execSQL(Utilidades.CREAR_TABLA_DETALLEVENTA);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
-    @Override // Chequeo las versión y actualizo las tablas
+    @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS "+ Utilidades.TABLA_USUARIO);
+        db.execSQL("DROP TABLE IF EXISTS "+ Utilidades.TABLA_VENTA);
+        db.execSQL("DROP TABLE IF EXISTS "+ Utilidades.TABLA_PRODUCTO);
+        db.execSQL("DROP TABLE IF EXISTS "+ Utilidades.TABLA_CATEGORIA);
+        db.execSQL("DROP TABLE IF EXISTS "+ Utilidades.TABLA_DETALLEVENTA);
+        onCreate(db);
+    }
+    public SQLiteDatabase open(){
+        bd = this.getWritableDatabase();
+        return bd;
+    }
+    public void close(){
+        bd.close();
     }
 }

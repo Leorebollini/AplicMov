@@ -1,11 +1,10 @@
 package com.example.myapplication.entidades;
-import java.io.Serializable;
 
-public class Personas implements Serializable {
+public class Personas {
     private Integer id, telefono, latitud, longitud, activo;
-    private String nombre, usuario, apellido, clave, email, direccion, localidad;
+    private String nombre, usuario, rol, apellido, clave, email, direccion, localidad;
 
-    public Personas(Integer id, Integer telefono, Integer latitud, Integer longitud, Integer activo, String nombre, String usuario, String apellido, String clave, String email, String direccion, String localidad) {
+    public Personas(Integer id, Integer telefono, Integer latitud, Integer longitud, Integer activo, String nombre, String rol, String usuario, String apellido, String clave, String email, String direccion, String localidad) {
         this.id = id;
         this.telefono = telefono;
         this.latitud = latitud;
@@ -14,6 +13,7 @@ public class Personas implements Serializable {
         this.nombre = nombre;
         this.usuario = usuario;
         this.apellido = apellido;
+        this.rol = rol;
         this.clave = clave;
         this.email = email;
         this.direccion = direccion;
@@ -26,6 +26,14 @@ public class Personas implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getRol() {
+        return rol;
+    }
+
+    public void setRol(String rol) {
+        this.rol = rol;
     }
 
     public Integer getTelefono() {
